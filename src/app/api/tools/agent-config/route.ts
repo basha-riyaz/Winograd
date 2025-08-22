@@ -33,8 +33,15 @@ export const POST = withApiHandler(async (request: Request) => {
   // Remove org_id and created_by since we don't have auth
   delete configData.org_id;
   delete configData.created_by;
+
+  // Create a new object ensuring headers is never undefined  (for vercel)
+  const dataToSave = {
+      ...configData,
+      headers: configData.headers || {} // <-- THIS IS THE FIX
+  };
   
-  const result = await dbService.saveAgentConfig(configData);
+  const result = await dbService.saveAgentConfig(dataToSave);
+
   return result;
 });
 
