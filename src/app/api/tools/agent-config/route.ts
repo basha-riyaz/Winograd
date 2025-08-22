@@ -36,11 +36,20 @@ export const POST = withApiHandler(async (request: Request) => {
 
   // Create a new object ensuring headers is never undefined  (for vercel)
   const dataToSave = {
-      ...configData,
-      headers: configData.headers || {} // <-- THIS IS THE FIX
+    ...configData,
+    // Fix for the 'headers' error from before
+    headers: configData.headers || {}, 
+    // Fix for the new errors
+    agentDescription: configData.agentDescription || '', 
+    userDescription: configData.userDescription || '',
+    rules: configData.rules || [],
+    agent_response: configData.agent_response || '',
+    input: configData.input || ''
   };
   
   const result = await dbService.saveAgentConfig(dataToSave);
+
+  // const result = await dbService.saveAgentConfig(configData);
 
   return result;
 });
