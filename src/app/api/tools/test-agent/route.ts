@@ -42,12 +42,12 @@ export const POST = withApiHandler(async (request: Request) => {
     
     // Make the actual API call to the user's agent
     const response = await fetch(endpoint, {
-      method: 'POST',
+      method: 'GET',
       headers: {
         'Content-Type': 'application/json',
         ...headers
       },
-      body: JSON.stringify(requestBody),
+      // body: JSON.stringify(requestBody),
       signal: controller.signal
     });
     
